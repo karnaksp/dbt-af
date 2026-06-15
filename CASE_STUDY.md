@@ -28,6 +28,22 @@ this field unchanged, clear it to `{}`, or submit `null` through the Airflow UI/
 - Added a local smoke script that builds the dbt manifest, starts Airflow, checks DAG discovery, and verifies the manual
   `dbt_af_project_dbt_run_model` task list.
 
+## Architecture Slice
+
+```mermaid
+flowchart LR
+    Manifest["dbt manifest.json"] --> Compiler["dbt-af DAG compiler"]
+    Compiler --> Scheduled["Scheduled domain DAGs"]
+    Compiler --> Manual["Manual dbt_run_model DAG"]
+    Airflow["Airflow UI / API"] --> Manual
+    Manual --> Args["Extra Arguments normalization"]
+    Args --> Command["dbt run command"]
+    Command --> Smoke["Docker Compose smoke demo"]
+```
+
+The contribution is intentionally narrow: it keeps the upstream DAG-generation model intact and hardens the manual rerun
+path that data engineers use for one-off model validation, backfills and debugging.
+
 ## Demo Scenario
 
 1. Open the generated `<dbt_project_name>_dbt_run_model` DAG in Airflow.
