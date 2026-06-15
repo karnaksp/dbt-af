@@ -10,6 +10,8 @@ docker compose run --rm --build airflow-cli bash -lc '
   dbt clean --no-clean-project-files-only --project-dir /opt/airflow/dags --profiles-dir /opt/airflow/dags --target dev
   dbt deps --debug --project-dir /opt/airflow/dags --profiles-dir /opt/airflow/dags --target dev
   dbt parse --debug --project-dir /opt/airflow/dags --profiles-dir /opt/airflow/dags --target dev
+  dbt seed --project-dir /opt/airflow/dags --profiles-dir /opt/airflow/dags --target dev --select svc_investment_signals.raw.instruments svc_investment_signals.raw.prices svc_investment_signals.raw.signals svc_investment_signals.raw.pipeline_events
+  dbt build --project-dir /opt/airflow/dags --profiles-dir /opt/airflow/dags --target dev --select svc_investment_signals+
 '
 
 docker compose up --force-recreate -d --build
@@ -30,7 +32,8 @@ if [[ "${webserver_ready}" != "true" ]]; then
 fi
 
 docker compose exec -T airflow-webserver airflow pools list
-docker compose exec -T airflow-webserver airflow dags list | grep -E 'dbt_af_project|dbt_run_model'
+docker compose exec -T airflow-webserver airflow dags list | grep -E 'dbt_af_project|investment_signals_analytics|dbt_run_model'
 docker compose exec -T airflow-webserver airflow tasks list dbt_af_project_dbt_run_model
+docker compose exec -T airflow-webserver airflow tasks list investment_signals_analytics_dbt_run_model
 
 echo "dbt-af orchestration demo smoke passed."

@@ -7,24 +7,31 @@ profile: 'default'
 
 model-paths: [
   "jaffle_shop/dbt/models",
-  "advanced_jaffle_shop/dbt/models"
+  "advanced_jaffle_shop/dbt/models",
+  "investment_signals_analytics/dbt/models",
+  "investment_signals_live/dbt/models"
 ]
 seed-paths: [
   "jaffle_shop/dbt/seeds",
-  "advanced_jaffle_shop/dbt/seeds"
+  "advanced_jaffle_shop/dbt/seeds",
+  "investment_signals_analytics/dbt/seeds"
 ]
 test-paths: [
   "jaffle_shop/dbt/tests",
-  "advanced_jaffle_shop/dbt/tests"
+  "advanced_jaffle_shop/dbt/tests",
+  "investment_signals_analytics/dbt/tests",
+  "investment_signals_live/dbt/tests"
 ]
 analysis-paths: [
   "jaffle_shop/dbt/analysis",
-  "advanced_jaffle_shop/dbt/analysis"
+  "advanced_jaffle_shop/dbt/analysis",
+  "investment_signals_analytics/dbt/analysis"
 ]
 macro-paths: [
   "macros",
   "jaffle_shop/dbt/macros",
-  "advanced_jaffle_shop/dbt/macros"
+  "advanced_jaffle_shop/dbt/macros",
+  "investment_signals_analytics/dbt/macros"
 ]
 
 target-path: "target"

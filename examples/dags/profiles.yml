@@ -28,6 +28,15 @@ default:
       dbname: "{{ env_var('POSTGRES_DB') }}"
       schema: "{{ env_var('POSTGRES_SCHEMA') }}"
       threads: 1
+    investment_signals:
+      type: postgres
+      host: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_HOST', 'host.docker.internal') }}"
+      user: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_USER', 'signal_engine') }}"
+      password: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_PASSWORD', 'signal_engine') }}"
+      port: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_PORT', '35432') | int }}"
+      dbname: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_DB', 'signal_engine') }}"
+      schema: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_SCHEMA', 'investment_signals_analytics') }}"
+      threads: "{{ env_var('INVESTMENT_SIGNALS_POSTGRES_THREADS', '2') | int }}"
     ingest:
       type: venv
       schema: "{{ env_var('POSTGRES_SCHEMA') }}"
@@ -41,4 +50,3 @@ default:
       index_urls:
         - "https://pypi.org/simple"
       inherit_env: true
-
